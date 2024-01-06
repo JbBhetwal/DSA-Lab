@@ -20,9 +20,8 @@ int main()
 
     cout << "Enter the value to be searched:";
     cin >> value;
-    cout << sizeof(arr) / sizeof(arr[0]);
 
-    // index = search(arr, sizeof(arr) / sizeof(arr[0]), value);
+    index = search(arr, sizeof(arr) / sizeof(arr[0]), value);
 
     cout << "The searched value is in index " << index;
 
