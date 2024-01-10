@@ -1,4 +1,4 @@
-// Insertion in Doubly Linked List
+// Insertion,Reversal and Deletion in Doubly Linked List
 
 #include <iostream>
 using namespace std;
@@ -60,6 +60,54 @@ Node *insertEnd(Node *head, int x)
     return head;
 }
 
+// Delete Head
+Node *delHead(Node *head)
+{
+    if (head == NULL)
+    {
+        return head;
+    }
+    else
+    {
+        if (head->next == NULL)
+        {
+            delete head;
+            return NULL;
+        }
+        Node *temp = head;
+        head->prev = NULL;
+        head = head->next;
+
+        delete temp;
+        return head;
+    }
+}
+
+// Delete end of the doublu Linked list
+Node *delEnd(Node *head)
+{
+    if (head == NULL)
+    {
+        return NULL;
+    }
+    else if (head->next == NULL)
+    {
+        delete head;
+        return NULL;
+    }
+    else
+    {
+        Node *curr = head;
+        while (curr->next != NULL)
+        {
+            curr = curr->next;
+        }
+        curr->prev->next = NULL;
+        delete curr;
+        return head;
+    }
+}
+
 // Reverse a doubly linked list
 Node *reverse(Node *head)
 {
@@ -88,7 +136,10 @@ int main()
     head = insertEnd(head, 25);
     head = insertEnd(head, 35);
     printList(head);
-    head = reverse(head);
+    // head = reverse(head);
+    // printList(head);
+
+    head = delEnd(head);
     printList(head);
     return 0;
 }
