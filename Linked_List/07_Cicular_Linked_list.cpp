@@ -36,6 +36,7 @@ struct Node
 //  }
 
 // Effective Solution
+// Insert after the head and then swap the datas.Temp acts as new head;
 Node *insertEnd(Node *head, int x)
 {
     Node *temp = new Node(x);
@@ -44,8 +45,57 @@ Node *insertEnd(Node *head, int x)
         temp->next = temp;
         return temp;
     }
-    temp->next = head;
-    return head;
+    temp->next = head->next;
+    head->next = temp;
+    swap(head->data, temp->data);
+    return temp;
+}
+
+// Node *delHead(Node *head)
+// {
+//     if (head == NULL)
+//     {
+//         return NULL;
+//     }
+//     else if (head->next == head)
+//     {
+//         delete head;
+//         return NULL;
+//     }
+//     else
+//     {
+//         Node *curr = head;
+//         while (curr != head)
+//         {
+//             curr = curr->next;
+//         };
+//         curr->next = head->next;
+//         delete head;
+//         return curr->next;
+//     }
+// }
+
+// Delete head
+// put the data of head->next in head then delete head->next
+Node *delHead(Node *head)
+{
+    if (head == NULL)
+    {
+        return NULL;
+    }
+    else if (head->next == head)
+    {
+        delete head;
+        return NULL;
+    }
+    else
+    {
+        Node *temp = head->next;
+        head->data = temp->data;
+        head->next = temp->next;
+        delete temp;
+        return head;
+    }
 }
 
 void printList(Node *head)
@@ -66,6 +116,7 @@ int main()
     head = insertEnd(head, 10);
     head = insertEnd(head, 20);
     head = insertEnd(head, 30);
+    head = delHead(head);
 
     printList(head);
     return 0;
