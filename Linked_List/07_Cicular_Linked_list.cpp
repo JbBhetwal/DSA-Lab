@@ -98,6 +98,25 @@ Node *delHead(Node *head)
     }
 }
 
+// Deletion of kth node from circulaar linked list
+Node *delKthNode(Node *head, int k)
+{
+    Node *curr = head;
+    if (k == 1)
+    {
+        head = delHead(head);
+        return head;
+    }
+    for (int i = 1; i < k - 1; i++)
+    {
+        curr = curr->next;
+    }
+    Node *temp = curr->next;
+    curr->next = temp->next;
+    delete temp;
+    return head;
+}
+
 void printList(Node *head)
 {
     if (head == NULL)
@@ -108,16 +127,20 @@ void printList(Node *head)
         cout << curr->data << " ";
         curr = curr->next;
     } while (curr != head);
+    cout << endl;
 }
 
 int main()
 {
     Node *head = NULL;
     head = insertEnd(head, 10);
-    head = insertEnd(head, 20);
-    head = insertEnd(head, 30);
-    head = delHead(head);
-
+    // head = insertEnd(head, 20);
+    // head = insertEnd(head, 30);
+    // head = insertEnd(head, 40);
+    // head = insertEnd(head, 50);
+    // head = insertEnd(head, 60);
+    printList(head);
+    head = delKthNode(head, 1);
     printList(head);
     return 0;
 }
