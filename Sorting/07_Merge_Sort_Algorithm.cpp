@@ -1,4 +1,4 @@
-// Merge function in Merge Sort
+// Merge Sort Algorithm
 
 #include <iostream>
 using namespace std;
@@ -12,7 +12,7 @@ void display(int a[], int n)
     cout << endl;
 }
 
-void merge_function(int a[], int low, int mid, int high)
+void merge(int a[], int low, int mid, int high)
 {
     int n1 = mid - low + 1;
     int n2 = high - mid;
@@ -25,9 +25,7 @@ void merge_function(int a[], int low, int mid, int high)
     {
         right[i] = a[mid + 1 + i];
     }
-    int i = 0, j = 0, k = 0;
-    display(left, n1);
-    display(right, n2);
+    int i = 0, j = 0, k = low;
     while (i < n1 && j < n2)
     {
         if (left[i] <= right[j])
@@ -57,14 +55,23 @@ void merge_function(int a[], int low, int mid, int high)
     }
 }
 
+void mergeSort(int a[], int l, int r)
+{
+    if (r > l)
+    {
+        int m = l + (r - l) / 2;
+        mergeSort(a, l, m);
+        mergeSort(a, m + 1, r);
+        merge(a, l, m, r);
+    }
+}
+
 int main()
 {
-    int a[] = {5, 7, 12, 14, 3, 6, 7, 9};
-    int mid = 3;
-    int low = 0;
+    int a[] = {1, 4, 2, 7};
     int n = sizeof(a) / sizeof(a[0]);
-    int high = n - 1;
-    merge_function(a, low, mid, high);
+    display(a, n);
+    mergeSort(a, 0, n - 1);
     display(a, n);
     return 0;
 }
