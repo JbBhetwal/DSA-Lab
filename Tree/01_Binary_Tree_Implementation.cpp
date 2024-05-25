@@ -1,6 +1,7 @@
 // Implementation of Binary Tree
 
 #include <iostream>
+#include <queue>
 using namespace std;
 
 struct Node
@@ -59,6 +60,23 @@ private:
         PostOrder(curr->right);
         cout << curr->data << " ";
     }
+    void LevelOrder(Node *root)
+    {
+        if (root == NULL)
+            return;
+        queue<Node *> q;
+        q.push(root);
+        while (q.empty() == false)
+        {
+            Node *curr = q.front();
+            q.pop();
+            cout << (curr->data) << " ";
+            if (curr->left != NULL)
+                q.push(curr->left);
+            if (curr->right != NULL)
+                q.push(curr->right);
+        }
+    }
     int Height(Node *curr)
     {
         if (curr == NULL)
@@ -92,6 +110,10 @@ public:
     {
         PostOrder(root);
     }
+    void levelOrder()
+    {
+        LevelOrder(root);
+    }
     int height()
     {
         Height(root);
@@ -116,5 +138,6 @@ int main()
     cout << endl;
     t.postOrder();
     cout << endl;
+    t.levelOrder();
     return 0;
 }
