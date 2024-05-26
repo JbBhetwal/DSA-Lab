@@ -2,7 +2,9 @@
 
 #include <iostream>
 #include <queue>
+#include <climits>
 using namespace std;
+int maxLevel = 0;
 
 struct Node
 {
@@ -77,16 +79,105 @@ private:
                 q.push(curr->right);
         }
     }
-    int Height(Node *curr)
+    void _LevelOrderLineByLine(Node *root)
     {
-        if (curr == NULL)
+        if (root == NULL)
+            return;
+        queue<Node *> q;
+        q.push(root);
+        q.push(NULL);
+        while (q.size() > 1)
+        {
+            Node *curr = q.front();
+            q.pop();
+            if (curr == NULL)
+            {
+                cout << endl;
+                q.push(NULL);
+                continue;
+            }
+            cout << (curr->data) << " ";
+            if (curr->left != NULL)
+                q.push(curr->left);
+            if (curr->right != NULL)
+                q.push(curr->right);
+        }
+    }
+    void LevelOrderLineByLine(Node *root)
+    {
+        if (root == NULL)
+            return;
+        queue<Node *> q;
+        q.push(root);
+        while (q.empty() == false)
+        {
+            int count = q.size();
+            for (int i = 0; i < count; i++)
+            {
+                Node *curr = q.front();
+                q.pop();
+                cout << curr->data << " ";
+                if (curr->left != NULL)
+                    q.push(curr->left);
+                if (curr->right != NULL)
+                    q.push(curr->right);
+            }
+            cout << endl;
+        }
+    }
+    int Height(Node *root)
+    {
+        if (root == NULL)
             return 0;
-        int left = Height(curr->left);
-        int right = Height(curr->right);
+        int left = Height(root->left);
+        int right = Height(root->right);
         if (left > right)
             return left + 1;
         else
             return right + 1;
+    }
+    int getSize(Node *root)
+    {
+        if (root == NULL)
+            return 0;
+        else
+        {
+            return 1 + getSize(root->left) + getSize(root->right);
+        }
+    }
+    int getMax(Node *root)
+    {
+        if (root == NULL)
+        {
+            return INT_MIN;
+        }
+        return std::max(std::max(getMax(root->left), getMax(root->right)), root->data);
+    }
+    // void left(Node *root, int level, int &maxLevel)
+    // {
+
+    //     if (root == NULL)
+    //         return;
+    //     if (maxLevel < level)
+    //     {
+    //         cout << root->data << " ";
+    //         maxLevel = level;
+    //     }
+    //     left(root->right, level + 1, maxLevel);
+    //     left(root->left, level + 1, maxLevel);
+    // }
+    void left(Node *root, int level)
+    {
+        if (root == NULL)
+            return;
+        cout << "For" << root->data << "LEVEL:" << level << " " << "MAXLEVEL:" << maxLevel << endl;
+        if (maxLevel < level)
+        {
+            cout << root->data << " ";
+            maxLevel = level;
+        }
+        left(root->left, level + 1);
+        left(root->right, level + 1);
     }
 
 public:
@@ -114,9 +205,25 @@ public:
     {
         LevelOrder(root);
     }
+    void levelOrderLineByLine()
+    {
+        LevelOrderLineByLine(root);
+    }
     int height()
     {
-        Height(root);
+        return Height(root);
+    }
+    int size()
+    {
+        return getSize(root);
+    }
+    int max()
+    {
+        return getMax(root);
+    }
+    void leftView()
+    {
+        left(root, 1);
     }
 };
 
@@ -131,13 +238,15 @@ int main()
     t.insert(15);
     t.insert(12);
     t.insert(18);
-    cout << t.height() << endl;
-    t.inOrder();
-    cout << endl;
-    t.preOrder();
-    cout << endl;
-    t.postOrder();
-    cout << endl;
-    t.levelOrder();
+    // cout << t.height() << endl;
+    // t.inOrder();
+    // cout << endl;
+    // t.preOrder();
+    // cout << endl;
+    // t.postOrder();
+    // cout << endl;
+    t.levelOrderLineByLine();
+    // cout << t.max();
+    t.leftView();
     return 0;
 }
